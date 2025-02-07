@@ -1,73 +1,97 @@
-# [About This Repository](https://github.com/EJAugust/EJAugust) [![Project Status: Alpha](https://img.shields.io/badge/Project%20Status-Alpha-orange)](https://www.repostatus.org/#alpha) [![Commits](https://img.shields.io/github/commit-activity/t/EJAugust/EJAugust)](https://github.com/EJAugust/EJAugust) [![GitHub Last Commit](https://img.shields.io/github/last-commit/EJAugust/EJAugust)](https://github.com/EJAugust/EJAugust)
-This repo unites all my personal projects using a frontend framework that I have been developing for years.
+# [`core.parts`](https://github.com/EJAugust/EJAugust) [![Project Status: Alpha](https://img.shields.io/badge/Project%20Status-Alpha-orange)](https://www.repostatus.org/#alpha) [![Commits](https://img.shields.io/github/commit-activity/t/EJAugust/EJAugust)](https://github.com/EJAugust/EJAugust) [![GitHub Last Commit](https://img.shields.io/github/last-commit/EJAugust/EJAugust)](https://github.com/EJAugust/EJAugust)
+<i>© 2013 - 2024 Eric Augustinowicz. All Rights Reserved.</i>
+## A Method of Building Static Client-Rendered Web Apps That Have a Permanent URL to Every State
 
-Every web app built in this framework offers a permalink to every valid client state, generated automatically. That URL achieves maxmimal compression storing the state of the client application.
+This project is the culmination of my research in art, design, engineering, and mathematics. It models application behavior as a tree of Diphantine equations (called **parts**; see [figure 1](#fig-1)) whose variables are their downstream vertices.
 
-This allows offline browsing, editing and sharing.
+A part's type expression bijectively maps all `k` of its valid variable assignment combinations to the natural numbers less than `k`, even if `k` is very large.
 
-## Web Components as Units
-Each web application - and every datum that makes up the application's data model - is measured and tracked by a reusable component called a unit.
+By giving every part type a domain name (see [figure 2](#fig-2)) and expressing its value in base `b` (see [figure 3](#fig-3)), we obtain a URI<sup>[[1]](#ref-1)</sup> for every instance of every part type (see [figure 4](#fig-4)).
 
-Units are implimented at runtime as class instances that track an integer which maximally compresses the global state as measured by that unit.
+Each part has presentation information which takes the place of a traditional model-view-controller paradigm with perhaps less overhead than one would expect.
 
-Together, all the units form a tree structure with a single root. Instantiating that root unit (using `new`) bootstraps the framework, irregardless of the environment.
+The source material is broken apart into a folder structure representing the domain name hierarchy. Types are defined by selecting a base type (with all types extending `one.core.parts`) and overriding one or more of its properties.
 
-### Unit Domain Names
-Every unit has it's own dedicated apex domain or subdomain. This serves as the name of the unit. The hierarchy of subdomain names does not relate to the hierarchy of units. This allows us to organize units into meaningful groups without affecting their behavior.
+At deploy time, a node script packs all of the type definitions into a single script `sw.js` and single document `index.html`.
 
-After adding an A type DNS record for a domain, the unit at that domain becomes a published client application.
+The result is a light, MVC-like front-end framework in which applications are made from reusable parts which are readily analyzed by mathematics.
+### Figures
 
-Cross-unit content is merged at deploy time into one root unit so the client does not engage in cross-origin resource sharing (CORS).
+<pre id=fig-1>
+╭─────────────────╮
+│ a = bC + c = 94 │
+│ A = B * C       │
+│ 0 <= a < A      │
+╰─────────────────╯
+<sub><i><b>Figure 1a:</b> Example part </i><b>p<sub>a</sub></b><i> has
+an integer value of </i><b>94</b><i> and two
+subparts, </i><b>p<sub>b</sub></b><i> and </i><b>p<sub>c</sub></b><i> which
+determine its range. It models
+the behavior of a 2-digit
+base-10 numeral.</i></sub></pre>
+<pre>
+╭──────────────╮
+│ b = ... =  9 │
+│ B = 10       │
+│ 0 <= c < B   │
+╰──────────────╯
+<sub><i><b>Figure 1b:</b> Part </i><b>p<sub>b</sub></b><i> models the ten's place.</i></sub></pre>
+<pre>
+╭──────────────╮<br>│ c = ... =  4 │<br>│ C = 10       │<br>│ 0 <= c < C   │<br>╰──────────────╯
+<sub><i><b>Figure 1c:</b> Part </i><b>p<sub>c</sub></b><i> models the one's place.</i></sub></pre>
 
-#### Common Units
-These are the most commonly used units.
-|Unit Name|Unit Description
-|-|-
-|**`root.core.parts`**|the root of all units; all other units are downstream from this one; this unit is derived from all other units; this unit measures the combined behavior of the deployment pipeline, the client window, and the client serviceWorker.
-|**`unit.core.parts`**|the base of all units; all other units extend from this one
-|**`disjunction.core.parts`**|the base unit of all disjoint unions
-|**`conjunction.core.parts`**|the base unit of all cartesian products
-
-### Defining a Unit
-A unit is defined by a handful of source files which override its base unit's behavior. 
-
-These source files are used whenever the framework launches (e.g. on deploy in node.js, on window load on the client, or on serviceWorker install). Native javascript events interface with these source files and vice versa.
-
-These source files are distributed across three kinds of unit behavior. Units can have additional source files. Units always have cross-origin access and can read all other units' source files.
-
-#### Core Structure
-A unit's value is automatically recomputed when the value(s) assigned to its derived units change. The reverse is also true: all affected derived unit(s)' are automatically assigned values whenever this unit's own value is assigned.
-
-These files are evaluated when a unit comes into existence and serve to define their relationship to other rootward and leafward units.
-|File|Purpose
-|-|-
-|**`base.uri`**|the domain of the base unit from which this unit extends<br>*The keyword "super" is used to call on the functionality of the base unit.*
-|**`.env`**|environment variable keys (with optional values) made available to `define.js`
-|**`define.js`**|runs when instantiating a unit; used to instantiate dependant units
-
-#### Change Propagation
-A change in any datum must propagate in both directions in order to spread out to the entire system. This allows every datum to act as a controller that drives the rest of the system. The following files allow a unit to override its parent's propagation logic:
-|File|Purpose
-|-|-
-|**`setState.js`**|change the value assigned to the unit and propagate that change both rootward and leafward
-|**`propagateRootward.js`**<br>**`propagateLeafward.js`**|react to and pass along changes made elsewhere in the system
-
-### Document Interaction
-These files are responsible for making the runtime environment reflect changes in the measured state.
-|File|Purpose
-|-|-
-|**`install.js`**|bind the unit to existing document elements and create dedicated elements
-|**`uninstall.js`**|unbind the unit from existing document elements and destroy dedicated elements
-
-## Analysis
-A unit can be expressed as a polynomial equal to the cardinality of the set of unique measurements the unit can observe, according to its design. The root unit defines a polynomial expression equal to the cardinality of the set of valid code paths for the entire system. Every level of the hierarchy is both a single unit and the constituent units from which it derives.
-
-This allows mathematical analysis using established methods.
-
-## Project Roadmap
+<pre>
+╭───────────────────────────────────────╮
+│ a     =  bC + c     =  94             │
+│---------------------------------------│
+│      left-hand-side = right-hand-side |
+│---------------------------------------│
+╰──────╮ object type ╭─╮ instance state │
+       ╰─────────────╯ ╰────────────────╯
+<sub><i><b>Figure 1d:</b> Part <b>p<sub>a</sub></b>'s equation maps to an object instance
+in javascript. Each part type is a class in javascript
+whose instance state can be set by setting the right-
+hand-side value or any of the left-hand-side variables.</i></sub>
+</pre>
+<pre id=fig-2>
+╭───────────────────────────────╮
+│ a = bC + c               = 94 │
+╰────╮--------------------╭─────╯ 
+     │ example.core.parts │
+     ╰────────────────────╯
+<sub><i><b>Figure 2:</b>  All part types have a dedicated
+domain name. Part <b>p<sub>a</sub></b> has the type name
+</i><b>example.core.parts</b><i>.</i></sub>
+</pre>
+<pre id=fig-3>
+╭─────────────────────────────────────────────╮
+│ a = bC + c               = 94  (base = 10)  │
+╰────╮--------------------╭─╮-----------------│ 
+     │ example.core.parts │ │ 1u (base = 64)  │
+     ╰────────────────────╯ ╰─────────────────╯
+<sub><i><b>Figure 3:</b> By writing part values in a large base (like <b>64</b>) we
+can represent large integers as character strings. Part <b>p<sub>a</sub></b>'s </b><i>
+state as a base-64 string is <b>1u</b>.</i></sub>
+</pre>
+<pre id=fig-4>
+╭────────────────────────────────────────╮
+│ a = bC + c                      = 94   │
+│----------------------------------------│ 
+│ a = https:// example.core.parts#1u.    │
+╰────────────────────────────────────────╯
+<sub><i><b>Figure 4:</i></b> Concatenating type and state obtains the URI.</i></sub>
+</pre>
+### Support
+This is a new paradigm with many applications and I'm working to demonstrate that. I need your support to keep going. Please contact me if you can help.
+### Roadmap
+Version `1.0.0` is under development.
 |Status|Phase|Description
 |-|-|-
-|✅ Done|**Core framework**|Philosophy, functionality and algorithm
-|✅ Done|**CI/CD pipeline**|Automation of content deployment
+|✅ Done|**Core framework**|Concept & algorithm
+|✅ Done|**CI/CD pipeline**|Build and deploy automation
+|🔄 Ongoing|**Debugging tools**|Source mapping and logging
 |🔄 Ongoing|**Example content**|Live demos and documentation
-|⏳ Planned|**Bootstrapped IDE**|A development environment for contributors
+|⏳ Planned|**Bootstrapped IDE**|Tools for rapid prototyping
+
+### References
+<a id="ref-1">[1]</a> IETF. (2005). <em>Uniform Resource Identifier (URI): Generic Syntax</em>. RFC 3986. <a href="https://datatracker.ietf.org/doc/html/rfc3986">https://datatracker.ietf.org/doc/html/rfc3986</a>
