@@ -8,7 +8,7 @@ It models application behavior as a [tree ↗](https://www.geeksforgeeks.org/tre
 |-|-|-
 |<sub>"type"</sub>||<sub>"value" or "state"</sub>
 |<sub>zero or more variables</sub>||<sub>no variables</sub>
-|<sub>no constants</sub>||<sub>one constant/sub>
+|<sub>no constants</sub>||<sub>one constant</sub>
 
 Parts have [types ↗](https://ncatlab.org/nlab/show/type%20theory) so that their left-hand-side can be reused and extended (see [𝑓𝑖𝑔.2](#fig-2)). A type has $k\geq 1$ solutions and bijectively maps its left-hand variable assignments to its right-hand natural number $n<k$.
 
