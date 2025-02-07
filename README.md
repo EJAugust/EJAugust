@@ -8,7 +8,7 @@ A part's type expression bijectively maps all `k` of its valid variable assignme
 
 By giving every part type a domain name (see [figure 2](#fig-2)) and expressing its value in base `b` (see [figure 3](#fig-3)), we obtain a URI<sup>[[1]](#ref-1)</sup> for every instance of every part type (see [figure 4](#fig-4)).
 
-Each part has presentation information which takes the place of a traditional model-view-controller paradigm with perhaps less overhead than one would expect.
+Parts are implimented as class instances in javascript (see [figure 5](#fig-5)). Each part has presentation information which takes the place of a traditional model-view-controller paradigm with perhaps less overhead than one would expect.
 
 The source material is broken apart into a folder structure representing the domain name hierarchy. Types are defined by selecting a base type (with all types extending `one.core.parts`) and overriding one or more of its properties.
 
@@ -39,20 +39,6 @@ base-10 numeral.</i></sub></pre>
 <pre>
 ╭──────────────╮<br>│ c = ... =  4 │<br>│ C = 10       │<br>│ 0 <= c < C   │<br>╰──────────────╯
 <sub><i><b>Figure 1c:</b> Part </i><b>p<sub>c</sub></b><i> models the one's place.</i></sub></pre>
-
-<pre>
-╭───────────────────────────────────────╮
-│ a     =  bC + c     =  94             │
-│---------------------------------------│
-│      left-hand-side = right-hand-side |
-│---------------------------------------│
-╰──────╮ object type ╭─╮ instance state │
-       ╰─────────────╯ ╰────────────────╯
-<sub><i><b>Figure 1d:</b> Part <b>p<sub>a</sub></b>'s equation maps to an object instance
-in javascript. Each part type is a class in javascript
-whose instance state can be set by setting the right-
-hand-side value or any of the left-hand-side variables.</i></sub>
-</pre>
 <pre id=fig-2>
 ╭───────────────────────────────╮
 │ a = bC + c               = 94 │
@@ -80,6 +66,19 @@ state as a base-64 string is <b>1u</b>.</i></sub>
 │ a = https:// example.core.parts#1u.    │
 ╰────────────────────────────────────────╯
 <sub><i><b>Figure 4:</i></b> Concatenating type and state obtains the URI.</i></sub>
+</pre>
+<pre id=fig-5>
+╭───────────────────────────────────────╮
+│ a     =  bC + c     =  94             │
+│---------------------------------------│
+│      left-hand-side = right-hand-side |
+│---------------------------------------│
+╰──────╮ object type ╭─╮ instance state │
+       ╰─────────────╯ ╰────────────────╯
+<sub><i><b>Figure 5:</b> Part <b>p<sub>a</sub></b>'s equation maps to an object instance
+in javascript. Each part type is a class in javascript
+whose instance state can be set by setting the right-
+hand-side value or any of the left-hand-side variables.</i></sub>
 </pre>
 ### Support
 This is a new paradigm with many applications and I'm working to demonstrate that. I need your support to keep going. Please contact me if you can help.
