@@ -59,7 +59,7 @@ For any part $p_x$
 |<pre>class TwoDigits {<br>&nbsp;constructor(value){<br>&nbsp;&nbsp;// construct subparts<br>&nbsp;&nbsp;this.b = new Digit()<br>&nbsp;&nbsp;this.c = new Digit()<br>&nbsp;&nbsp;this.value = value<br>&nbsp;}<br>&nbsp;get value(){<br>&nbsp;&nbsp;return this.b.value * this.c.size + this.c.value<br>&nbsp;}<br>&nbsp;set value(value){<br>&nbsp;&nbsp;this.b.value = Math.floor(value / this.c.size)<br>&nbsp;&nbsp;this.c.value = value % this.c.size<br>&nbsp;}<br>}<br><br>const a = new TwoDigits(94)</pre>
 
 ## Support
-This is a new paradigm with many applications and I'm working to demonstrate that. I need your support to keep going. Please contact me if you can help.
+This project is the culmination of my research in art, design, engineering, and mathematics. This is a new paradigm with many applications and I'm working to demonstrate that. I need your support to keep going. Please contact me if you can help.
 ## Roadmap
 Version `1.0.0` is under development.
 |Status|Phase|Description
