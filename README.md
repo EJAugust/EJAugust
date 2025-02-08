@@ -51,7 +51,7 @@ For any part $p_x$
 |$`$h_a=`$`example.core.parts`<br>$`v_a=94_{10}=\text{1u}_{64}`$<br>$`u_a=`$`https://example.core.parts#1u`
 |$`$h_b=`$`digit.example.core.parts`<br>$`v_b=9_{10}=\text{9}_{64}`$<br>$`u_b=`$`https://digit.example.core.parts#9`
 |$`$h_c=`$`digit.example.core.parts`<br>$`v_c=4_{10}=\text{4}_{64}`$<br>$`u_c=`$`https://digit.example.core.parts#4`
-|<pre>           https&#58;//example.core.parts#1u <br>                         (p_a)   v_a = 94 <br>                       /       \ <br>                      /         \ <br>                     /           \ <br>                    /             \ <br>                   /               \ <br>       v_b = 9  (p_b)               \ <br>https&#58;//digit.example.core.parts#9   \ <br>                                      \ <br>                                    (p_c) v_b = 4 <br>                        https&#58;//digit.example.core.parts#4</pre>
+|<pre>           https&#58;//example.core.parts#1u <br>                         (p_a)   v_a = 94 <br>                       /       \ <br>                      /         \ <br>                     /           \ <br>                    /             \ <br>                   /               \ <br>       v_b = 9  (p_b)               \ <br>https&#58;//digit.example.core.parts#9   \ <br>                                      \ <br>                                    (p_c) v_c = 4 <br>                        https&#58;//digit.example.core.parts#4</pre>
 
 |<span id=fig-6>Figure 6</span>
 |-
