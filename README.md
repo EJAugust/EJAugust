@@ -1,7 +1,7 @@
 <sup><i>© 2013 - 2024 Eric Augustinowicz. All Rights Reserved.</i></sup>
 # [A Method of Building Static Client-Rendered Web Apps That Have a Permanent URL to Every State](https://github.com/EJAugust/EJAugust)<br>[![Project Status: Alpha](https://img.shields.io/badge/Project%20Status-Alpha-orange)](https://www.repostatus.org/#alpha) [![Commits](https://img.shields.io/github/commit-activity/t/EJAugust/EJAugust)](https://github.com/EJAugust/EJAugust) [![GitHub Last Commit](https://img.shields.io/github/last-commit/EJAugust/EJAugust)](https://github.com/EJAugust/EJAugust)
 This project is the culmination of my research in art, design, engineering, and mathematics. The result is a light, MVC-like front-end framework in which applications are made from reusable parts that are readily analyzed using mathematics.
-# Concept
+## Concept
 It models application behavior as a [tree ↗](https://www.geeksforgeeks.org/tree-data-structure/) of [Diophantine equations ↗](https://mathworld.wolfram.com/DiophantineEquation.html) (called **parts**; see [𝑓𝑖𝑔.1](#fig-1)) whose [variables ↗](https://www.mathsisfun.com/algebra/introduction.html) are represented by their downstream vertices.
 
 |$`aB + c`$|$=$|$`94`$
