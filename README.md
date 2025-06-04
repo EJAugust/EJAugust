@@ -1,6 +1,7 @@
-# [Static Client-Rendered Web Applications With a URI to Every State](https://github.com/EJAugust/EJAugust)
+# [About My Project](https://github.com/EJAugust/EJAugust)
+## A Static Client-Rendered DNS-based Operating System That Uses a Perfect Hash Function to Provide Optimal Data Compression and a Permalink to Every Possible State
+This project combines a [perfect hash function](https://en.wikipedia.org/wiki/Perfect_hash_function), the [Domain Name System](https://en.wikipedia.org/wiki/Domain_Name_System), an [operating system](https://en.wikipedia.org/wiki/Operating_system), and a [component-based](https://en.wikipedia.org/wiki/Component-based_software_engineering) [front-end](https://en.wikipedia.org/wiki/Frontend_and_backend) [framework](https://en.wikipedia.org/wiki/Web_framework). It builds a [static](https://en.wikipedia.org/wiki/Static_web_page) [single-page](https://en.wikipedia.org/wiki/Single-page_application) [progressive web application](https://en.wikipedia.org/wiki/Progressive_web_app) with [server-side](https://en.wikipedia.org/wiki/Server-side_scripting#Server-side_rendering) and [client-side file rendering](https://www.patterns.dev/react/client-side-rendering/). The use of a perfect hash function allows the app to encode its runtime state as a [URI](https://datatracker.ietf.org/doc/html/rfc3986) with optimal space efficiency:
 
-This project combines a [perfect hash function](https://en.wikipedia.org/wiki/Perfect_hash_function) with a component-based frontend framework. It builds [static](https://en.wikipedia.org/wiki/Static_web_page) [single-page](https://en.wikipedia.org/wiki/Single-page_application) [progressive web applications](https://en.wikipedia.org/wiki/Progressive_web_app) with [server-side](https://www.patterns.dev/react/client-side-rendering/) and [client-side](https://www.patterns.dev/react/client-side-rendering/) file rendering. The perfect hash function allows the app to encode its runtime state as a [URI](https://datatracker.ietf.org/doc/html/rfc3986):
 ```
 ╭─────────────────────────────────────────────╮
 │ https:// www.example.com / ghc3whi45g4w3 /  |
@@ -8,18 +9,29 @@ This project combines a [perfect hash function](https://en.wikipedia.org/wiki/Pe
   https://     App Name    /   App State   /
 ```
 
-The framework can be used to build small-scale, feature-rich web apps (such as a short-form document editor or an icon painting utility). The user interface works like a [wysiwyg](https://en.wikipedia.org/wiki/WYSIWYG) editor for a small amount of user-configurable data. Using a straightforward approach, that data is compressed into the URI in real-time with optimal space efficiency.
+Using a straightforward approach, that data is compressed into the URI in real-time with such an optimal space efficiency that it permits rich content authoring (such as rich text and layered image editing). The ability to instantly share a link to that content gives the illusion that the user uploaded their content to a server but no network traffic takes place. This allows the URI to act as a tiny file storing all of the user's content in a highly optimal way. The client window acts like a [wysiwyg](https://en.wikipedia.org/wiki/WYSIWYG) editor for the compressed data.
 
-The URI can then be shared, which in turn shares exactly what the user sees in the application. This gives the illusion that the user uploaded the app's content to the server when no information was uploaded. Instead, the user found a pre-defined route containing the content. Another way to think about it is that the URI is itself the file containing the content, making it easy to share.
+An ecosystem of applications are combined into an operating system which links intimately with the web. The user can open, reposition, resize, maximimize, minimize or close arbitrarily many different applications - all in a single browser window. The user gets a start menu for launching tasks and a taskbar for switching between them. A file explorer allows the user to access the file system that makes the application operate as well as their own custom files and folders. This integrates with the DNS: readonly system folders correspond to DNS domains; readonly system files correspond to DNS records; all user-editable files and folders are encoded in the user's address bar using perfect hashing.
 
-The project is currently in alpha. See below for [live demos](#live-demos).
+All user-configurable state information is encoded in a surprisingly short pathname. Using a combination of LTS and iterative improvement of the compression model, the project will continue to improve upon the operating system's features.
+
+The front-end framework is carefully designed to ensure that it never unneccessarily rerenders or reevaluates any DOM elements, attributes, functions, buffers or runtime values.
+
+The client window performs exactly two network fetches on first visit:
+1. **`index.html`**: A server-rendered HTML bootstrap which provides an unhydrated snapshot of the operating system at the given pathname
+2. **`service.js`**: The service worker which turns the app into an entirely offline experience.
+
+This representes the absolute minimum possible number of server requests for providing a fully-functioning PWA given today's web standards. All other assets are fetched after service worker is installed and they are client-rendered. The browser's default service worker updating features and an [LTS](https://en.wikipedia.org/wiki/Long-term_support) convention are responsible for a smooth operating system update experience.
+
+The library is written in [vanilla JavaScript (ECMA-262)](https://ecma-international.org/publications-and-standards/standards/ecma-262/) and doesn't rely on any other libraries.
+
+The project is currently in alpha. See below for [live demos](#live-demo-domains).
 
 ## Roadmap
-[![version](https://img.shields.io/badge/version-0.115.118-silver)](https://github.com/EJAugust/EJAugust)
+[![version](https://img.shields.io/badge/version-0.115.78-silver)](https://github.com/EJAugust/EJAugust)
 [![Project Status: Alpha](https://img.shields.io/badge/Project%20Status-Alpha-orange)](https://www.repostatus.org/#alpha)
 [![Commits](https://img.shields.io/github/commit-activity/t/EJAugust/EJAugust)](https://github.com/EJAugust/EJAugust)
-[![GitHub Last Commit](https://img.shields.io/github/last-commit/EJAugust/EJAugust)](https://github.com/EJAugust/EJAugust)
-
+[![GitHub Last Commit](https://img.shields.io/github/last-commit/EJAugust/EJAugust)](https://github.com/EJAugust/EJAugust)\
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/A0A7WQ6V4)
 
 Version `1.0.0` is under development.
@@ -32,18 +44,22 @@ Version `1.0.0` is under development.
 |**LTS plan**|In progress
 |**Advanced DNS integration**|Planned
 |**Community-curated content**|Planned
-|**Periodicity/sets with infinite cardinality**|Planned
 
-## Live Demos
-* [www.core.parts](https://www.core.parts) Interactive documentation for the project.
-* [www.desktop.parts](https://www.desktop.parts) A retro-style operating system experience.
-* [www.ejaugust.com](https://www.ejaugust.com) My portfolio and blog.
-* [www.orenjinari.com](https://www.orenjinari.com) Another creator's portfolio website.
+## Live Demo Domains
+Each of these domains corresponds to a live demo of the operating system, where the theme of the operating system is set according to the domain that is used to access it.
+
+When an application is set as the operating system's theme, an instance of the application in question is presented as an interactive desktop wallpaper, allowing the operating system to provide a familiar web browsing experience.
+
+- [`"www.core.parts"`](https://www.core.parts) Interactive documentation for the project.
+- [`"www.desktop.parts"`](https://www.desktop.parts) A familiar operating system experience.
+- [`"www.ejaugust.com"`](https://www.ejaugust.com) My portfolio and blog.
+- [`"www.orenjinari.com"`](https://www.orenjinari.com) Another artist's portfolio. Currently the only example of a third-party application installed in the operating system.
 
 ### Coming Soon
-* [www.user.parts](https://www.user.parts) A user profile and avatar creator.
-* [www.kireji.io](https://www.kireji.io) A short-form document editor.
-* [www.glowstick.click](https://www.glowstick.click) A video streaming platform with the ability to edit and share video clips.
+- [`"www.user.parts"`](https://www.user.parts) A website where the user can create a custom wallpaper, avatar and theme for the operating system.
+- [`"www.kireji.io"`](https://www.kireji.io) A short-form document editor.
+- [`"www.kireji.app"`](https://www.kireji.io) A presentation app for displaying documents authored using `"www.kireji.io"`.
+- [`"www.glowstick.click"`](https://www.glowstick.click) A video streaming platform with the ability to edit and share custom video clips.
 
 ## License
 <sub><i>© 2013 - 2025 Eric Augustinowicz. All Rights Reserved.</i></sup><br>
@@ -56,49 +72,48 @@ These methods are subject to change as I continue research and development.
 This framework creates a static web application by packing source files into a single source-mapped script, `./api/service.js`, and deploying that script as both a client service worker and cloud serverless function.
 
 On first visit to a given URI, the request reaches a serverless function for that domain name which uses the incoming request to pre-render an HTML file with inlined CSS. This is like a still image of the requested application in the requested state. This ensures:
+
 1. That the client will always see something besides a blank page on first visit, while the rest of the application data downloads in the background.
 2. Search engine crawlers like Googlebot will see fully rendered pages for any given link.
 
 An inline script registers `service.js` as a service worker while the window continues parsing the HTML. No other assets (including PWA assets like `manifest.json`, icons or screenshots) are fetched until after the client window is controlled by a service worker, ensuring that all of these assets are client-rendered, reducing the burden on the serverless function.
 
-### Parts and State Encoding
-A bijection $`\textcolor{#88AAEE}{\text{pathname} \xleftrightarrow{} \text{object state}}`$ is computed. The method uses an alphabet of $`\textcolor{#88AAEE}{b = 64}`$ characters to encode/decode integers as an array of variable-length pathname segments (each segment up to $`\textcolor{#88AAEE}{250}`$ characters long). Each path segment can represent $`\textcolor{#88AAEE}{k_{\text{segment}} = (64^{251}-64)/63 ≈ 3.56 * 10^{451} ≈ 2^{1500}}`$ unique values (about $`\textcolor{#88AAEE}{1500}`$ bits of storage space). The computation is similar to a numeral [base conversion](https://en.wikipedia.org/wiki/Positional_notation#Base_conversion) with some added complexity which takes advantage of the storage potential of a variable-length string. 
+### Domain and State Encoding
+A bijection $`\text{pathname} \leftrightarrow{} \text{object state}`$ is computed. The method uses an alphabet of $`b = 64`$ characters to encode/decode integers as an array of variable-length pathname segments (each segment up to $`{250}`$ characters long). Each path segment can represent $`k_{\text{segment}} = (64^{251}-64)/63 ≈ 3.56 * 10^{451} ≈ 2^{1500}`$ unique values (about $`1500`$ bits of storage space). The computation is similar to a numeral [base conversion](https://en.wikipedia.org/wiki/Positional_notation#Base_conversion) with some added complexity which takes advantage of the storage potential of a variable-length string.
 
-UI component objects called "parts" are instantiated by the framework at runtime. A part $`\textcolor{#88AAEE}{O}`$ of type $`\textcolor{#88AAEE}{T_O}`$ exists in one of $`\textcolor{#88AAEE}{k_{T_O}}`$ states and represents a positive integer $`\textcolor{#88AAEE}{n < k_{T_O}}`$. When $`\textcolor{#88AAEE}{O}`$'s properties change, so does $`\textcolor{#88AAEE}{n}`$. In this way, each part is its own perfect hash function.
+Domain names identify UI component objects (**parts**) which are instantiated by the framework at runtime. A part $`P`$ exists in one of $`k_P`$ states and represents a positive integer $`n < k_P`$. When $`P`$'s properties change, so does $`n`$. In this way, each domain represents its own perfect hash function.
 
-Every part is identified by a unique domain name which, combined with a pathname, provides a URI for every state of every component, making the perfect hash function complete over all possible component types.
-
-$`\begin{alignat}{3} &{{u_T}_v}_n &\xleftrightarrow{} &(\;\text{d}_T, \text{v}, n_0, n_1, \ldots, n_m\;) \\ \textcolor{grey}{\text{e.g., }}&\textcolor{#AA8866}{\text{"https://two-digit.example.com/v123/0t"}} & &\textcolor{#AAAA44}{[\textcolor{#AA8866}{\text{"two-digit.example.com"}}\textcolor{grey}{,} \textcolor{#AAAA88}{123.*.*}, \textcolor{#AA8866}{\text{"0t"}}]}\\\;\\\;\\\;\\\;\\&\text{d}_{\text{T}} &\xleftrightarrow{} &\text{T} = \{\;{O_T}_0,\;{O_T}_1,\;{O_T}_2,\;\ldots,\;{O_T}_{k-1}\;\} \\ \textcolor{gray}{\text{e.g., }}&\textcolor{#AA8866}{\text{"two-digit.example.com"}} & &\textcolor{grey}{\textcolor{#4466AA}{\texttt{const}}\;\textcolor{#88AAEE}{\texttt{part}}\texttt{ = }\textcolor{#4466AA}{\texttt{new class}}\;\textcolor{#33AA88}{\texttt{TwoDigit}}\;\textcolor{#4466AA}{\texttt{extends}}\;\textcolor{#33AA88}{\texttt{Conjunction}}\;\textcolor{#AAAA44}{\texttt{\{}}} \\ & & &\texttt{\textcolor{#BFBFBF}{\quad state} \textcolor{grey}{=} \textcolor{#88AAEE}{-1}\textcolor{#4466AA}{n}} \\ & & &\texttt{\textcolor{#448833}{\quad// compiled from dns-root/com/example/two-digit }} \\ & & &\texttt{\textcolor{#AAAA44}{\}()}}\\\;\\\;\\\;\\\;\\&(\;n_0, n_1, \ldots, n_m\;) &\xleftrightarrow{} &n \\ \textcolor{gray}{\text{e.g., }}&\texttt{\textcolor{#AA8866}{"0t"}} & &\texttt{\textcolor{#88AAEE}{94}\textcolor{#4466AA}{n}} \end{alignat}`$
+$`\begin{alignat}{3} &{{u_T}_v}_n &\leftrightarrow{} &(\;\text{d}_T, \text{v}, n_0, n_1, \ldots, n_m\;) \\ {\text{e.g., }}&{\text{``https://two-digit.example.com/v123/0t''}} & &{[{\text{``two-digit.example.com''}}{,} {123}, {\text{``0t''}}]}\\\;\\\;\\\;\\\;\\&\text{d}_{\text{T}} &\leftrightarrow{} &\text{T} = \{\;{P_T}_0,\;{P_T}_1,\;{P_T}_2,\;\ldots,\;{P_T}_{k-1}\;\} \\ {\text{e.g., }}&{\text{``two-digit.example.com''}} & &{{\text{const}}\;{\text{part}}\text{ = }{\text{new class}}\;{\text{TwoDigit}}\;{\text{extends}}\;{\text{Mix}}\;{\text{\{}}} \\ & & &\quad \text{state = -1n} \\ & & &\quad \text{// compiled from dns-root/com/example/two-digit } \\ & & &\text{\}()}\\\;\\\;\\\;\\\;\\&(\;n_0, n_1, \ldots, n_m\;) &\leftrightarrow{} &n \\ {\text{e.g., }}&\text{``0t''} & &\text{94n} \end{alignat}`$
 
 Parts act like controllers in a model-view-controller paradigm. They can have their state read and written either as an integer or via direct manipulation of the part or its subparts.
 
-$`\begin{alignat}{3} &{{u_T}_v}_n &\xleftrightarrow{} &{O_{\text{T}}}_n \\ \textcolor{gray}{\text{e.g., }}&\textcolor{#AA8866}{\text{"https://two-digit.example.com/v123/0t"}} & &\textcolor{grey}{\textcolor{#88AAEE}{\texttt{part}}.\textcolor{#BFBFBF}{\text{state}}\texttt{ === }\textcolor{#88AAEE}{\texttt{94}}\textcolor{#4466AA}{\texttt{n}}}\\\;\\\;\\\;\\\;\\&{O_{\text{T}}}_n &\xleftrightarrow{} &\{\;{{O_{\text{T}}}_n}_0, {{O_{\text{T}}}_n}_1, \ldots \} \\ \textcolor{gray}{\text{e.g., }}&\textcolor{grey}{\textcolor{#88AAEE}{\texttt{part}}.\textcolor{#BFBFBF}{\text{state}}\texttt{ === }\textcolor{#88AAEE}{\texttt{94}}\textcolor{#4466AA}{\texttt{n}}} & &\text{\textcolor{#AAAA44}{[}} \\ & & &\quad \text{\textcolor{#BFBFBF}{\textcolor{#88AAEE}{tensPlace}.routeID \textcolor{grey}{===} \textcolor{#88AAEE}{9}\textcolor{#4466AA}{n},}} \\ & & &\quad \text{\textcolor{#BFBFBF}{\textcolor{#88AAEE}{onesPlace}.routeID \textcolor{grey}{===} \textcolor{#88AAEE}{4}\textcolor{#4466AA}{n}}} \\ & & &\texttt{\textcolor{#AAAA44}{]}} \end{alignat}`$
+$`\begin{alignat}{3} &{{u_T}_v}_n &\leftrightarrow{} &{P_{\text{T}}}_n \\ {\text{e.g., }}&{\text{``https://two-digit.example.com/v123/0t''}} & &{{\text{part}}.{\text{state}}\text{ === }{\text{94}}{\text{n}}}\\\;\\\;\\\;\\\;\\&{P_{\text{T}}}_n &\leftrightarrow{} &\{\;{{P_{\text{T}}}_n}_0, {{P_{\text{T}}}_n}_1, \ldots \} \\ {\text{e.g., }}&{{\text{part}}.{\text{state}}\text{ === }{\text{94}}{\text{n}}} & &\text{[} \\ & & &\quad \text{tensPlace.routeID === 9n,} \\ & & &\quad \text{onesPlace.routeID === 4n} \\ & & &\text{]} \end{alignat}`$
 
-URIs act as typed data literals which are readily composed and decomposed into more URIs.
-
-$`\begin{alignat}{3} &{{u_T}_v}_n &\xleftrightarrow{} &\{\;{{u_T}_v}_{n_0}, {{u_T}_v}_{n_1}, \ldots \} \\ \textcolor{gray}{\text{e.g., }}&\textcolor{#AA8866}{\text{"https://two-digit.example.com/v123/0t"}} & &\text{\textcolor{#AAAA44}{[}} \\ & & &\quad \textcolor{#AA8866}{\text{"https://one-digit.example.com/v123/8"}}, \\ & & &\quad \textcolor{#AA8866}{\text{"https://one-digit.example.com/v123/3"}} \\ & & &\texttt{\textcolor{#AAAA44}{]}} \end{alignat}`$
+<!-- URIs act as typed data literals which are readily composed and decomposed into more URIs.
+$`\begin{alignat}{3} &{{u_T}_v}_n &\leftrightarrow{} &\{\;{{u_T}_v}_{n_0}, {{u_T}_v}_{n_1}, \ldots \} \\ {\text{e.g., }}&{\text{``https://two-digit.example.com/v123/0t''}} & &\text{[} \\ & & &\quad {\text{``https://one-digit.example.com/v123/8''}}, \\ & & &\quad {\text{``https://one-digit.example.com/v123/3''}} \\ & & &\text{]} \end{alignat}`$ -->
 
 ### Type Schema
-Each part type has a base type from which it extends. There is a core type $`\textcolor{#AA8866}{\texttt{"core.parts"}}`$ which all other types directly or indirectly extend.
+The part `"part.core.parts"` is the prototype of all other parts. Its own prototype is `null`. All other parts directly or indirectly extend it.
 
-These types perform the majority of the perfect hash arithmetic:
-1. $`\textcolor{#AA8866}{\texttt{"one.core.parts"}}`$ - The default base of a type if none is given. This represents a part with no subparts. It has a cardinality of $`\texttt{\textcolor{#88AAEE}{1}}`$. That one state has the integer value $`\texttt{\textcolor{#88AAEE}{0}}`$.
-1. $`\textcolor{#AA8866}{\texttt{"match.core.parts"}}`$ - Only one of its subparts can be enabled at a time, behaving like a single option selected from a set.
-1. $`\textcolor{#AA8866}{\texttt{"mix.core.parts"}}`$ - A part which controls a set of subparts, all of which are enabled if the part is enabled and whose states are all independent of one another. This acts like a single point selected from a cartesian product space whose dimensions are its subparts.
-1. $`\textcolor{#AA8866}{\texttt{"string.core.parts"}}`$ - Combining features of both mix and match, this represents a variable-length array of subparts which acts like a (possibly mixed-radix) string.
+The following parts are the most common prototypes and they perform the majority of the perfect hash arithmetic:
 
-Each type is responsible for inheriting or overriding its parent type's cardinality, which is immutable for each type.
+1. `"part.core.parts"` - The default prototype if none is given. This represents a part with no subparts. It has a cardinality of one. That one state maps to the integer value zero.
+1. `"mix.core.parts"` - A multiplicative function for handling independently mutable factors. It controls a set of subparts (called mix factors), all of which are enabled whenever the part itself is enabled. This acts like a tuple or an $`n`$-dimensional point selected from a cartesian product space whose dimensions are the mix factors.
+1. `"match.core.parts"` - An additive function for handling mutually exclusive options. Only one of its subparts (called match arms) can be enabled at a time, behaving like a single option selected from a set.
 
-This forms a type tree whose root type is $`\textcolor{#AA8866}{\texttt{"core.parts"}}`$.
+Each part is responsible for inheriting or overriding its prototype part's cardinality, which is immutable for each part.
 
-The framework initializes a root part whose type is $`\textcolor{#AA8866}{\texttt{"user.parts"}}`$. This defines the user-configurable state space which can be configured via URI.
+This forms a type tree whose root is `"part.core.parts"`.
 
-Using domain names for all types enables future configuration of type information via DNS.
+The framework initializes the root part whose name is the empty string, `""`, representing the DNS root. This defines the user-configurable state space which is bijectively mapped to the URI pathname.
+
+<!-- Using domain names for all parts enables future configuration of part information via DNS. -->
+
 ### Versioning and LTS
 The global type schema has a semantic versioning scheme.
 
-|major|.|minor|.|patch
-|-|-|-|-|-
+| major | .   | minor | .   | patch |
+| ----- | --- | ----- | --- | ----- |
 
 - Does this commit make breaking changes to existing routes?
   - yes: increment the major version number
