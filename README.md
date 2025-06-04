@@ -2,17 +2,17 @@
 
 # A Static Client-Rendered DNS-based Operating System That Uses a Perfect Hash Tree to Provide Optimal Data Compression and a Permalink to Every Possible State
 
+<sup><i>Note: This is a living document. The project and this document have been in progress for many years and are constantly evolving. You may see typos or mistakes.</i></sub>
+
 This project combines a [piecewise](https://en.wikipedia.org/wiki/Piecewise_function) [perfect hash function](https://en.wikipedia.org/wiki/Perfect_hash_function), the [Domain Name System](https://en.wikipedia.org/wiki/Domain_Name_System), a novel [operating system](https://en.wikipedia.org/wiki/Operating_system), and a [reactive](https://en.wikipedia.org/wiki/Reactive_programming) [component-based](https://en.wikipedia.org/wiki/Component-based_software_engineering) [full-stack](https://en.wikipedia.org/wiki/Frontend_and_backend) [framework](https://en.wikipedia.org/wiki/Web_framework).
 
 To end users, it is a [static](https://en.wikipedia.org/wiki/Static_web_page) [single-page](https://en.wikipedia.org/wiki/Single-page_application) [progressive web application](https://en.wikipedia.org/wiki/Progressive_web_app) with [server-](https://en.wikipedia.org/wiki/Server-side_scripting#Server-side_rendering) and [client-side file rendering](https://www.patterns.dev/react/client-side-rendering/) with powerful compression capabilities, search engine optimization and truly comprehensive routing (every possible operating system state has a [permalink](https://en.wikipedia.org/wiki/Permalink)/[deep link](https://en.wikipedia.org/wiki/Deep_linking) directly to it).
 
-The project does not import any libraries. It is written in [vanilla](https://en.wikipedia.org/wiki/Vanilla_software#Software_Development_Practices) [JavaScript](https://en.wikipedia.org/wiki/Vanilla_JavaScript) [(a.k.a. ECMAScript or ECMA-262)](https://ecma-international.org/publications-and-standards/standards/ecma-262/), [CSS](https://www.w3.org/TR/css-2024/), and [HTML](https://html.spec.whatwg.org/dev/) in order to maintain fine-grained control over the size of static assets and to align with the spirit and word of international technology standards.
+The project does not import any libraries. See below for [the motivation behind that decision](#vanilla-language-features).
 
-Another motivation for avoiding third party libraries was that it lets me analyze the operating system end-to-end as a single equation which I can progressively simplify even as I equip it with new features.
+The project is currently in alpha. See below for [live demos](#live-demo-domains).
 
-The whole project is currently in alpha. See below for [live demos](#live-demo-domains).
-
-## Data Compression
+## Stateful Data Compression
 
 The use of a perfect hash function allows the app to encode its runtime state as a [URI](https://datatracker.ietf.org/doc/html/rfc3986):
 
@@ -26,6 +26,67 @@ The use of a perfect hash function allows the app to encode its runtime state as
 Using a straightforward approach, arbitrary data is compressed into a URI pathname in real-time with enough efficiency to permit creative content generation (such as editing rich text and procedurally generating images). The ability to instantly share a link to that content gives the illusion that the user uploaded their work to a server but no network traffic takes place.
 
 This allows the URI to act as a tiny file storing all of the user's content in a highly optimal way. The client window acts like a [WYSIWYG](https://en.wikipedia.org/wiki/WYSIWYG) editor for that compressed data.
+
+### Pathname Segment Encoding
+
+Pathname encoding uses an alphabet of $`b = 64`$ characters to encode/decode integers as an array of variable-length pathname segments (each segment up to $`250`$ characters long). Each path segment can represent $`k_{\text{segment}} = (64^{251}-64)/63 ≈ 3.56 * 10^{451} ≈ 2^{1500}`$ unique values (about $`1500`$ bits of storage space). The computation is similar to a numeral [base conversion](https://en.wikipedia.org/wiki/Positional_notation#Base_conversion) with some added complexity which takes advantage of the storage potential of a variable-length string.
+
+$`\begin{alignat}{3} &{{u_T}_v}_n &\leftrightarrow{} &(\;\text{d}_T, \text{v}, n_0, n_1, \ldots, n_m\;) \\ {\text{e.g., }}&{\text{``https://two-digit.example.com/v123/0t''}} & &{[{\text{``two-digit.example.com''}}{,} {123}, {\text{``0t''}}]}\\\;\\\;\\\;\\\;\\&\text{d}_{\text{T}} &\leftrightarrow{} &\text{T} = \{\;{P_T}_0,\;{P_T}_1,\;{P_T}_2,\;\ldots,\;{P_T}_{k-1}\;\} \\ {\text{e.g., }}&{\text{``two-digit.example.com''}} & &{{\text{const}}\;{\text{part}}\text{ = }{\text{new class}}\;{\text{TwoDigit}}\;{\text{extends}}\;{\text{Mix}}\;{\text{\{}}} \\ & & &\quad \text{state = -1n} \\ & & &\quad \text{// compiled from dns-root/com/example/two-digit } \\ & & &\text{\}()}\\\;\\\;\\\;\\\;\\&(\;n_0, n_1, \ldots, n_m\;) &\leftrightarrow{} &n \\ {\text{e.g., }}&\text{``0t''} & &\text{94n} \end{alignat}`$
+
+$`\begin{alignat}{3} &{{u_T}_v}_n &\leftrightarrow{} &{P_{\text{T}}}_n \\ {\text{e.g., }}&{\text{``https://two-digit.example.com/v123/0t''}} & &{{\text{part}}.{\text{state}}\text{ === }{\text{94}}{\text{n}}}\\\;\\\;\\\;\\\;\\&{P_{\text{T}}}_n &\leftrightarrow{} &\{\;{{P_{\text{T}}}_n}_0, {{P_{\text{T}}}_n}_1, \ldots \} \\ {\text{e.g., }}&{{\text{part}}.{\text{state}}\text{ === }{\text{94}}{\text{n}}} & &\text{[} \\ & & &\quad \text{tensPlace.routeID === 9n,} \\ & & &\quad \text{onesPlace.routeID === 4n} \\ & & &\text{]} \end{alignat}`$
+
+<!-- URIs act as typed data literals which are readily composed and decomposed into more URIs.
+$`\begin{alignat}{3} &{{u_T}_v}_n &\leftrightarrow{} &\{\;{{u_T}_v}_{n_0}, {{u_T}_v}_{n_1}, \ldots \} \\ {\text{e.g., }}&{\text{``https://two-digit.example.com/v123/0t''}} & &\text{[} \\ & & &\quad {\text{``https://one-digit.example.com/v123/8''}}, \\ & & &\quad {\text{``https://one-digit.example.com/v123/3''}} \\ & & &\text{]} \end{alignat}`$ -->
+
+<!-- Using domain names for all parts enables future configuration of part information via DNS. -->
+
+### DNS-based Schema
+
+All domain names correspond to an exact runtime object (called a **part**) which is first created in the build environment by a process which scans the repository and fetches TXT records from the DNS.
+
+These objects are then serialized at build time as object literals which are inlined into the output file, `./api/service.js`. As a result, all of the objects are "already instantiated" the moment the output script is evaluated in the subsequent three environments.
+
+#### Piecewise Bijection
+
+The optimal data compression is achieved using a hash function powered by the tree of objects that these domains creates. For each part, the compression is powered by the following bijection which is computed using the resources gathered from that domain:
+
+$`\text{natural number} \leftrightarrow{} \text{object state}`$
+
+A part $`P`$ exists in one of $`k_P`$ states and represents a positive integer $`n < k_P`$. When $`P`$'s properties change, so does $`n`$. In this way, each part represents a vertex in the perfect hash tree.
+
+Parts are like controllers in the [MVC](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller) paradigm in that they control the state of the underlying data model and trigger view updates in response to user interactions.
+
+Parts can have their state read from and written to as an integer. They can also be simply manipulated directly. The manipulation of a part or any of its subparts automatically changes its numeric value.
+
+#### Inheritance
+
+A domain's records and source files define its behavior. Its subdomains define its subparts. Every domain can be a prototype for an extension domain so that all of its behaviors, assets and subparts are inherited by the extension without needing to add any records or files to the domain except for the file that specifies its prototype domain. Each of these things can then be overwritten by the extension domain by introducing correctly formatted source files, records and subdomains to the extension part.
+
+This gives domains a familiar [class inheritance](<https://en.wikipedia.org/wiki/Inheritance_(object-oriented_programming)>) behavior.
+
+The following parts are the most common prototypes:
+
+1. `"part.core.parts"` - The default prototype if none is given. This represents a part with no subparts. It has a cardinality of one. That one state maps to the integer value zero. It is the only part with no prototype object (at runtime, its prototype is `null`).
+1. `"mix.core.parts"` - A multiplicative function for handling independently mutable factors. It controls a set of subparts (called mix factors), all of which are enabled whenever the part itself is enabled. This acts like a tuple or an $`n`$-dimensional point selected from a cartesian product space whose dimensions are the mix factors.
+1. `"match.core.parts"` - An additive function for handling mutually exclusive options. Only one of its subparts (called match arms) can be enabled at a time, behaving like a single option selected from a set.
+
+The "mix and match" core parts perform the majority of the perfect hash arithmetic so that the rest of the domains can focus on their own responsibilities, like providing unique game logic or multimedia assets.
+
+Each part is responsible for inheriting or overriding its prototype part's cardinality - or the number of states that the part can be in - and this number is immutable for each part.
+
+This forms a type tree whose root is `"part.core.parts"`.
+
+The framework initializes the root part whose name is the empty string, `""`, representing the DNS root. This defines the entire user-configurable state space.
+
+#### State Propagation, Frame Rate and Address Bar Synchronizing
+
+The overall state of the application bijectively maps 1:1 with the URI in user's address bar. That URI represents the current state of the DNS root part.
+
+The state of each part is synchronized with its parent domain (except for the DNS root, which has no parent) and subdomain states (where existing) via careful leafward and rootward propagation any time something changes. Those changes are either driven by user interaction or by the application itself (e.g, a game loop that performs a simulation or plays an animation).
+
+This propagation activity is fast enough to be synchronized in real-time (which for modern browsers is [typically 60hz but not always](https://developer.mozilla.org/en-US/docs/Web/API/Window/requestAnimationFrame)). This requires changes to the address bar (i.e. [the window's history object](https://developer.mozilla.org/en-US/docs/Web/API/Window/history)) to be throttled to prevent [the browser from introducing an even more aggressive throttle of its own that prevents DoS hanging](https://issues.chromium.org/issues/40080060).
+
+The value in the address bar is the one most likely to be bookmarked or shared but because of this throttle limitation, it could be up to 350ms older than the actual state.
 
 ## Operating System
 
@@ -115,9 +176,24 @@ However, browsers must fetch a service worker _directly from the network_ for sa
 
 I am currently researching the best approach to mitigating this problem while adhering closely to the word and spirit of web safety standards.
 
+## Build Process
+
+This framework creates a static web application by packing source files into a single source-mapped script, `./api/service.js`, and deploying that script as both a client service worker and cloud serverless function.
+
+On first visit to a given URI, the request reaches a serverless function for that domain name which uses the incoming request to pre-render an HTML file with inlined CSS. This is like a still image of the requested application in the requested state. This ensures:
+
+1. That the client will always see something besides a blank page on first visit, while the rest of the application data downloads in the background.
+2. Search engine crawlers like Googlebot will see fully rendered pages for any given link.
+
+An inline script registers `service.js` as a service worker while the window continues parsing the HTML. No other assets (including PWA assets like `manifest.json`, icons or screenshots) are fetched until after the client window is controlled by a service worker, ensuring that all of these assets are client-rendered, reducing the burden on the serverless function.
+
+## Large Files
+
+Large multimedia assets can theoretically be served by pairing the system with a traditional [CMS](https://en.wikipedia.org/wiki/Content_management_system), but the current iteration of the project prefers procedurally generated content over storing and serving large files.
+
 ## Roadmap
 
-[![version](https://img.shields.io/badge/version-0.115.78-silver)](https://github.com/EJAugust/EJAugust)
+[![version](https://img.shields.io/badge/version-0.115.80-silver)](https://github.com/EJAugust/EJAugust)
 [![Project Status: Alpha](https://img.shields.io/badge/Project%20Status-Alpha-orange)](https://www.repostatus.org/#alpha)
 [![Commits](https://img.shields.io/github/commit-activity/t/EJAugust/EJAugust)](https://github.com/EJAugust/EJAugust)
 [![GitHub Last Commit](https://img.shields.io/github/last-commit/EJAugust/EJAugust)](https://github.com/EJAugust/EJAugust)\
@@ -152,83 +228,19 @@ When an application is set as the operating system's theme, an instance of the a
 - [`"www.kireji.app"`](https://www.kireji.io) A presentation app for displaying documents authored using `"www.kireji.io"`.
 - [`"www.glowstick.click"`](https://www.glowstick.click) A video streaming platform with the ability to edit and share custom video clips.
 
-## Build Process
+## Vanilla Language Features
 
-This framework creates a static web application by packing source files into a single source-mapped script, `./api/service.js`, and deploying that script as both a client service worker and cloud serverless function.
+This entire project is written using [vanilla language features](https://en.wikipedia.org/wiki/Vanilla_software#Software_Development_Practices) for all three of the core web languages:
+- [JavaScript](https://en.wikipedia.org/wiki/Vanilla_JavaScript) [(a.k.a. ECMAScript or ECMA-262)](https://ecma-international.org/publications-and-standards/standards/ecma-262/)
+- [CSS](https://www.w3.org/TR/css-2024/)
+- [HTML](https://html.spec.whatwg.org/dev/)
 
-On first visit to a given URI, the request reaches a serverless function for that domain name which uses the incoming request to pre-render an HTML file with inlined CSS. This is like a still image of the requested application in the requested state. This ensures:
-
-1. That the client will always see something besides a blank page on first visit, while the rest of the application data downloads in the background.
-2. Search engine crawlers like Googlebot will see fully rendered pages for any given link.
-
-An inline script registers `service.js` as a service worker while the window continues parsing the HTML. No other assets (including PWA assets like `manifest.json`, icons or screenshots) are fetched until after the client window is controlled by a service worker, ensuring that all of these assets are client-rendered, reducing the burden on the serverless function.
-
-## Domain and State Encoding
-
-All domain names correspond to an exact runtime object (called a **part**) which is first created in the build environment by a process which scans the repository and fetches TXT records from the DNS.
-
-These objects are then serialized at build time as object literals which are inlined into the output file, `./api/service.js`. As a result, all of the objects are "already instantiated" the moment the output script is evaluated in the subsequent three environments.
-
-#### Piecewise Bijection
-
-For each part, the following bijection is computed using the resources gathered for its host domain:
-
-$`\text{natural number} \leftrightarrow{} \text{object state}`$
-
-A part $`P`$ exists in one of $`k_P`$ states and represents a positive integer $`n < k_P`$. When $`P`$'s properties change, so does $`n`$. In this way, each part represents a vertex in the perfect hash tree.
-
-Parts are like controllers in the [MVC](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller) paradigm in that they control the state of the underlying data model and trigger view updates in response to user interactions.
-
-Parts can have their state read from and written to as an integer. They can also be simply manipulated directly. The manipulation of a part or any of its subparts automatically changes its numeric value.
-
-#### Inheritance
-
-A domain's records and source files define its behavior. Its subdomains define its subparts. Every domain can be a prototype for an extension domain so that all of its behaviors, assets and subparts are inherited by the extension without needing to add any records or files to the domain except for the file that specifies its prototype domain. Each of these things can then be overwritten by the extension domain by introducing correctly formatted source files, records and subdomains to the extension part.
-
-This gives domains a familiar [class inheritance](<https://en.wikipedia.org/wiki/Inheritance_(object-oriented_programming)>) behavior.
-
-The following parts are the most common prototypes:
-
-1. `"part.core.parts"` - The default prototype if none is given. This represents a part with no subparts. It has a cardinality of one. That one state maps to the integer value zero. It is the only part with no prototype object (at runtime, its prototype is `null`).
-1. `"mix.core.parts"` - A multiplicative function for handling independently mutable factors. It controls a set of subparts (called mix factors), all of which are enabled whenever the part itself is enabled. This acts like a tuple or an $`n`$-dimensional point selected from a cartesian product space whose dimensions are the mix factors.
-1. `"match.core.parts"` - An additive function for handling mutually exclusive options. Only one of its subparts (called match arms) can be enabled at a time, behaving like a single option selected from a set.
-
-The "mix and match" core parts perform the majority of the perfect hash arithmetic so that the rest of the domains can focus on their own responsibilities, like providing unique game logic or multimedia assets.
-
-Each part is responsible for inheriting or overriding its prototype part's cardinality - or the number of states that the part can be in - and this number is immutable for each part.
-
-This forms a type tree whose root is `"part.core.parts"`.
-
-The framework initializes the root part whose name is the empty string, `""`, representing the DNS root. This defines the entire user-configurable state space.
-
-#### State Propagation, Frame Rate and Address Bar Synchronizing
-
-The overall state of the application bijectively maps 1:1 with the URI in user's address bar. That URI represents the current state of the DNS root part.
-
-The state of each part is synchronized with its parent domain (except for the DNS root, which has no parent) and subdomain states (where existing) via careful leafward and rootward propagation any time something changes. Those changes are either driven by user interaction or by the application itself (e.g, a game loop that performs a simulation or plays an animation).
-
-This propagation activity is fast enough to be synchronized in real-time (which for modern browsers is [typically 60hz but not always](https://developer.mozilla.org/en-US/docs/Web/API/Window/requestAnimationFrame)). This requires changes to the address bar (i.e. [the window's history object](https://developer.mozilla.org/en-US/docs/Web/API/Window/history)) to be throttled to prevent [the browser from introducing an even more aggressive throttle of its own that prevents DoS hanging](https://issues.chromium.org/issues/40080060).
-
-The value in the address bar is the one most likely to be bookmarked or shared but because of this throttle limitation, it could be up to 350ms older than the actual state.
-
-#### Pathname Segment Encoding
-
-Pathname encoding uses an alphabet of $`b = 64`$ characters to encode/decode integers as an array of variable-length pathname segments (each segment up to $`250`$ characters long). Each path segment can represent $`k_{\text{segment}} = (64^{251}-64)/63 ≈ 3.56 * 10^{451} ≈ 2^{1500}`$ unique values (about $`1500`$ bits of storage space). The computation is similar to a numeral [base conversion](https://en.wikipedia.org/wiki/Positional_notation#Base_conversion) with some added complexity which takes advantage of the storage potential of a variable-length string.
-
-$`\begin{alignat}{3} &{{u_T}_v}_n &\leftrightarrow{} &(\;\text{d}_T, \text{v}, n_0, n_1, \ldots, n_m\;) \\ {\text{e.g., }}&{\text{``https://two-digit.example.com/v123/0t''}} & &{[{\text{``two-digit.example.com''}}{,} {123}, {\text{``0t''}}]}\\\;\\\;\\\;\\\;\\&\text{d}_{\text{T}} &\leftrightarrow{} &\text{T} = \{\;{P_T}_0,\;{P_T}_1,\;{P_T}_2,\;\ldots,\;{P_T}_{k-1}\;\} \\ {\text{e.g., }}&{\text{``two-digit.example.com''}} & &{{\text{const}}\;{\text{part}}\text{ = }{\text{new class}}\;{\text{TwoDigit}}\;{\text{extends}}\;{\text{Mix}}\;{\text{\{}}} \\ & & &\quad \text{state = -1n} \\ & & &\quad \text{// compiled from dns-root/com/example/two-digit } \\ & & &\text{\}()}\\\;\\\;\\\;\\\;\\&(\;n_0, n_1, \ldots, n_m\;) &\leftrightarrow{} &n \\ {\text{e.g., }}&\text{``0t''} & &\text{94n} \end{alignat}`$
-
-$`\begin{alignat}{3} &{{u_T}_v}_n &\leftrightarrow{} &{P_{\text{T}}}_n \\ {\text{e.g., }}&{\text{``https://two-digit.example.com/v123/0t''}} & &{{\text{part}}.{\text{state}}\text{ === }{\text{94}}{\text{n}}}\\\;\\\;\\\;\\\;\\&{P_{\text{T}}}_n &\leftrightarrow{} &\{\;{{P_{\text{T}}}_n}_0, {{P_{\text{T}}}_n}_1, \ldots \} \\ {\text{e.g., }}&{{\text{part}}.{\text{state}}\text{ === }{\text{94}}{\text{n}}} & &\text{[} \\ & & &\quad \text{tensPlace.routeID === 9n,} \\ & & &\quad \text{onesPlace.routeID === 4n} \\ & & &\text{]} \end{alignat}`$
-
-<!-- URIs act as typed data literals which are readily composed and decomposed into more URIs.
-$`\begin{alignat}{3} &{{u_T}_v}_n &\leftrightarrow{} &\{\;{{u_T}_v}_{n_0}, {{u_T}_v}_{n_1}, \ldots \} \\ {\text{e.g., }}&{\text{``https://two-digit.example.com/v123/0t''}} & &\text{[} \\ & & &\quad {\text{``https://one-digit.example.com/v123/8''}}, \\ & & &\quad {\text{``https://one-digit.example.com/v123/3''}} \\ & & &\text{]} \end{alignat}`$ -->
-
-<!-- Using domain names for all parts enables future configuration of part information via DNS. -->
-
-## Large Files
-
-Large multimedia assets can theoretically be served by pairing the system with a traditional [CMS](https://en.wikipedia.org/wiki/Content_management_system), but the current iteration of the project prefers procedurally generated content over storing and serving large files.
+I do not import any libraries for this project for a number of reasons:
+1. It helps me maintain fine-grained control over all static (build output) data.
+1. I like to align as directly as I can with the spirit and word of international technology standards.
+1. This lets me analyze the operating system end-to-end as a single equation which I can progressively simplify even as I equip it with new features. This would not be possible if any of the system's optimizations or behaviors were achieved with a third-party library because it is not really appropriate to go about editing the internal contents of a third-party library.
 
 ## License
 
-<sub><i>© 2013 - 2025 Eric Augustinowicz. All Rights Reserved.</i></sup><br>
-The project is still in alpha. It is not ready for large scale usage. Please do not copy, modify or redistribute this project but feel free to contact me. The project acts as prior art allowing me to continue to develop these ideas. These methods are subject to change as I continue research and development.
+<sub><i>© 2013 - 2025 Eric Augustinowicz. All Rights Reserved.</i></sub><br><br>
+<sub><i>The project is still in alpha. It is only possible thanks to many years of my own personal research and development.  Its methods are subject to change as I continue that work. It is not ready for large scale usage but it will be, soon.</i></sub><br><br><sub><i>You do not have permission to **copy, modify or redistribute this project** in any form. Don't steal someone's work. Why steal when you can contact me with your interest instead? Perhaps we can collaborate on a project together.</i></sub><br><br><sub><i>Sorry, you cannot legally patent or claim any part of this project as your own because it has been taking place in public for years. This repository serves as [prior art](https://en.wikipedia.org/wiki/Prior_art) allowing me to continue to develop these ideas in public without fear of a large organization or patent troll claiming these ideas as their own.</i></sub>
