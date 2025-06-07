@@ -33,7 +33,7 @@ Pathname encoding uses an alphabet of $`b = 64`$ characters to encode/decode int
 
 $`\begin{alignat}{3} &{{u_T}_v}_n &\leftrightarrow{} &(\;\text{d}_T, \text{v}, n_0, n_1, \ldots, n_m\;) \\ {\text{e.g., }}&{\text{``https://two-digit.example.com/v123/0t''}} & &{[{\text{``two-digit.example.com''}}{,} {123}, {\text{``0t''}}]}\\\;\\\;\\\;\\\;\\&\text{d}_{\text{T}} &\leftrightarrow{} &\text{T} = \{\;{P_T}_0,\;{P_T}_1,\;{P_T}_2,\;\ldots,\;{P_T}_{k-1}\;\} \\ {\text{e.g., }}&{\text{``two-digit.example.com''}} & &{{\text{const}}\;{\text{part}}\text{ = }{\text{new class}}\;{\text{TwoDigit}}\;{\text{extends}}\;{\text{Mix}}\;{\text{\{}}} \\ & & &\quad \text{state = -1n} \\ & & &\quad \text{// compiled from dns-root/com/example/two-digit } \\ & & &\text{\}()}\\\;\\\;\\\;\\\;\\&(\;n_0, n_1, \ldots, n_m\;) &\leftrightarrow{} &n \\ {\text{e.g., }}&\text{``0t''} & &\text{94n} \end{alignat}`$
 
-$`\begin{alignat}{3} &{{u_T}_v}_n &\leftrightarrow{} &{P_{\text{T}}}_n \\ {\text{e.g., }}&{\text{``https://two-digit.example.com/v123/0t''}} & &{{\text{part}}.{\text{state}}\text{ === }{\text{94}}{\text{n}}}\\\;\\\;\\\;\\\;\\&{P_{\text{T}}}_n &\leftrightarrow{} &\{\;{{P_{\text{T}}}_n}_0, {{P_{\text{T}}}_n}_1, \ldots \} \\ {\text{e.g., }}&{{\text{part}}.{\text{state}}\text{ === }{\text{94}}{\text{n}}} & &\text{[} \\ & & &\quad \text{tensPlace.routeID === 9n,} \\ & & &\quad \text{onesPlace.routeID === 4n} \\ & & &\text{]} \end{alignat}`$
+$`\begin{alignat}{3} &{{u_T}_v}_n &\leftrightarrow{} &{P_{\text{T}}}_n \\ {\text{e.g., }}&{\text{``https://two-digit.example.com/v123/0t''}} & &{{\text{part}}.{\text{state}}\text{ === }{\text{94}}{\text{n}}}\\\;\\\;\\\;\\\;\\&{P_{\text{T}}}_n &\leftrightarrow{} &\{\;{{P_{\text{T}}}_n}_0, {{P_{\text{T}}}_n}_1, \ldots \} \\ {\text{e.g., }}&{{\text{part}}.{\text{state}}\text{ === }{\text{94}}{\text{n}}} & &\text{[} \\ & & &\quad \text{tensPlace.state === 9n,} \\ & & &\quad \text{onesPlace.state === 4n} \\ & & &\text{]} \end{alignat}`$
 
 <!-- URIs act as typed data literals which are readily composed and decomposed into more URIs.
 $`\begin{alignat}{3} &{{u_T}_v}_n &\leftrightarrow{} &\{\;{{u_T}_v}_{n_0}, {{u_T}_v}_{n_1}, \ldots \} \\ {\text{e.g., }}&{\text{``https://two-digit.example.com/v123/0t''}} & &\text{[} \\ & & &\quad {\text{``https://one-digit.example.com/v123/8''}}, \\ & & &\quad {\text{``https://one-digit.example.com/v123/3''}} \\ & & &\text{]} \end{alignat}`$ -->
@@ -50,13 +50,13 @@ These objects are then serialized at build time as object literals which are inl
 
 The optimal data compression is achieved using a hash function powered by the tree of objects that these domains creates. For each part, the compression is powered by the following bijection which is computed using the resources gathered from that domain:
 
-$`\text{natural number} \leftrightarrow{} \text{object state}`$
+$`\text{natural number} \leftrightarrow{} \text{component state}`$
 
-A part $`P`$ exists in one of $`k_P`$ states and represents a positive integer $`n < k_P`$. When $`P`$'s properties change, so does $`n`$. In this way, each part represents a vertex in the perfect hash tree.
-
-Parts are like controllers in the [MVC](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller) paradigm in that they control the state of the underlying data model and trigger view updates in response to user interactions.
+A part $`P`$ exists in one of $`k_P`$ states and represents a positive integer $`n < k_P`$. When $`P`$'s properties change, so does $`n`$. In this way, each part sports its own perfect hash function while connecting together as a vertex in a larger perfect hash tree.
 
 Parts can have their state read from and written to as an integer. They can also be simply manipulated directly. The manipulation of a part or any of its subparts automatically changes its numeric value.
+
+In this way, parts are controllers that update a data model (its integer value) allowing the data model to change in response to user interactions. By adding a couple of rendering methods, reevaluating the hash results in updates to all the other runtime values and - in the client window - DOM elements. In other words, the perfect hash function by itself *already is [MVC-like](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller)* so equiping them with rendering callbacks was all that was needed to turn the hash function into a full MVC reactive web framework.
 
 #### Inheritance
 
@@ -104,11 +104,11 @@ The resulting pathname is surprisingly short. The user state is designed to stay
 
 ### Decentralized/Distributed System
 
-Because the exact state of the operation system can be shared instantly via [URI] to other users and across devices, the operating system acts as a kind of global, [decentralized operating system](https://en.wikipedia.org/wiki/Decentralised_system).
+Because the exact state of the operation system can be shared instantly via URI to other users and across devices and its components can be permanently configured by different property owners using the DNS, this project represents a world-wide [decentralized and distributed operating system](https://en.wikipedia.org/wiki/Decentralised_system).
 
 ### Potential for Real-time Collaboration
 
-The native [WebRTC API](https://webrtc.org/) may allow users to engage in [collaborative real-time editing](https://en.wikipedia.org/wiki/Collaborative_real-time_editor) - two or more people may operate the system even if they are in different parts of the world. Users would also connect with themselves to synchronize the state of the operating system across devices, origins and browsers. I am currently researching this opportunity.
+The native [WebRTC API](https://webrtc.org/) may allow users to engage in [collaborative real-time editing](https://en.wikipedia.org/wiki/Collaborative_real-time_editor) - two or more people may operate the system even if they are in different parts of the world. Users would then be able to connect with themselves to synchronize the state of the operating system across multiple devices. I am currently researching this opportunity.
 
 ## Full-Stack Reactive Framework
 
